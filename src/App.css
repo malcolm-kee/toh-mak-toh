@@ -6,6 +6,28 @@ body {
   min-height: 100%;
 }
 
+.button-group {
+  margin: 8px 0;
+  text-align: right;
+}
+
+.button {
+  border-radius: 4px;
+  padding: 8px 16px;
+  outline: none;
+  border: none;
+  appearance: none;
+  text-transform: uppercase;
+  transition: background 200ms ease-in-out;
+  background: #fff;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.button:hover {
+  background: #e0e0e0;
+}
+
 .App {
   text-align: center;
   min-height: 100vh;
@@ -69,6 +91,7 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
+  position: relative;
 }
 
 .App-title {
@@ -206,11 +229,38 @@ body {
   opacity: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.setting-button-container {
+  position: absolute;
+  right: 8px;
+}
+
+.setting-button {
+  transition: color 200ms ease-in-out;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+}
+
+.setting-button:hover {
+  background: rgba(0, 0, 0, 0.12);
+  color: #fafafa;
+}
+
+.setting-form {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.setting-form .field {
+  text-align: left;
+  margin: 8px 0;
+}
+
+.setting-form input {
+  font-size: 1rem;
 }
