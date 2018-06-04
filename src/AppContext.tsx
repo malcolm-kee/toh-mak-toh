@@ -72,12 +72,12 @@ export class AppContextProvider extends React.Component<{}, IAppContext> {
         prevState.runMode === 'Work'
           ? {
               runMode: 'Rest',
-              remainingSec: DEFAULT_REST_TIME,
+              remainingSec: prevState.restTime,
               isRunning: false
             }
           : {
               runMode: 'Work',
-              remainingSec: DEFAULT_WORK_TIME,
+              remainingSec: prevState.workTime,
               isRunning: false
             }
     );
