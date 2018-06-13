@@ -3204,6 +3204,10 @@ icss-utils@^2.1.0:
   dependencies:
     postcss "^6.0.1"
 
+idb-keyval@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/idb-keyval/-/idb-keyval-3.0.5.tgz#f3e9b87bd4e71732f0367729be5ba648714da842"
+
 ieee754@^1.1.4:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.11.tgz#c16384ffe00f5b7835824e67b6f2bd44a5229455"

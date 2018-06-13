@@ -20,23 +20,28 @@ class SettingButtonContainer extends React.PureComponent<IAppContext, IState> {
           <button
             type="button"
             className="button setting-button"
-            onClick={this.handleToggleShow}
+            onClick={this.handleShowForm}
           >
             Setting
           </button>
         )}
         {this.state.showSetting && (
-          <SettingForm toggleShow={this.handleToggleShow} />
+          <SettingForm hideForm={this.handleHideForm} />
         )}
       </div>
     );
   }
 
-  handleToggleShow = () => {
-    this.setState(prevState => ({
-      showSetting: !prevState.showSetting
-    }));
+  handleShowForm = () => {
+    this.setState({
+      showSetting: true
+    });
   };
+
+  handleHideForm = () =>
+    this.setState({
+      showSetting: false
+    });
 }
 
 export const SettingButton: React.SFC = () => (

@@ -1,10 +1,22 @@
 import * as React from 'react';
+import { addRecord } from './database';
+import { vibrate } from './domService';
 
 const DEFAULT_WORK_TIME = 50 * 60;
 const DEFAULT_REST_TIME = 17 * 60;
 
+const enum RunMode {
+  Rest = 'Rest',
+  Work = 'Work'
+}
+
+export const enum Screen {
+  Main = 'Main',
+  History = 'History'
+}
+
 export interface IAppContext {
-  runMode: 'Rest' | 'Work';
+  runMode: RunMode;
   isRunning: boolean;
   remainingSec: number;
   workTime: number;
@@ -12,10 +24,12 @@ export interface IAppContext {
   toggleRun: () => void;
   setWorkTime: (workTime: number) => void;
   setRestTime: (restTime: number) => void;
+  screen: Screen;
+  goTo: (screen: Screen) => void;
 }
 
 const DEFAULT_APP_CONTEXT: IAppContext = {
-  runMode: 'Work',
+  runMode: RunMode.Work,
   isRunning: false,
   remainingSec: DEFAULT_WORK_TIME,
   workTime: DEFAULT_WORK_TIME,
@@ -27,6 +41,10 @@ const DEFAULT_APP_CONTEXT: IAppContext = {
     /* noop */
   },
   setRestTime: () => {
+    /* noop */
+  },
+  screen: Screen.Main,
+  goTo: () => {
     /* noop */
   }
 };
@@ -67,27 +85,37 @@ export class AppContextProvider extends React.Component<{}, IAppContext> {
   };
 
   switchMode = () => {
-    this.setState(
-      prevState =>
-        prevState.runMode === 'Work'
-          ? {
-              runMode: 'Rest',
-              remainingSec: prevState.restTime,
-              isRunning: false
-            }
-          : {
-              runMode: 'Work',
-              remainingSec: prevState.workTime,
-              isRunning: false
-            }
-    );
+    vibrate();
+    this.setState(prevState => {
+      if (prevState.runMode === RunMode.Work) {
+        return {
+          runMode: RunMode.Rest,
+          remainingSec: prevState.restTime,
+          isRunning: false
+        };
+      } else {
+        addRecord(this.state.workTime, this.state.restTime);
+        return {
+          runMode: RunMode.Work,
+          remainingSec: prevState.workTime,
+          isRunning: false
+        };
+      }
+    });
+  };
+
+  goTo = (screen: Screen) => {
+    this.setState({
+      screen
+    });
   };
 
   state = {
     ...DEFAULT_APP_CONTEXT,
     toggleRun: this.toggleRun,
     setWorkTime: this.setWorkTime,
-    setRestTime: this.setRestTime
+    setRestTime: this.setRestTime,
+    goTo: this.goTo
   };
 
   componentDidUpdate(prevProps: {}, prevState: IAppContext) {

@@ -8,7 +8,7 @@ const isNumber = (value: string | number): boolean =>
   !isNaN(Number(value));
 
 interface IParentProps {
-  toggleShow: () => void;
+  hideForm: () => void;
 }
 
 interface IState {
@@ -83,7 +83,7 @@ class SettingFormContainer extends React.PureComponent<
     if (isNumber(this.state.restTime) && isNumber(this.state.workTime)) {
       this.props.setRestTime(this.state.restTime * 60);
       this.props.setWorkTime(this.state.workTime * 60);
-      this.props.toggleShow();
+      this.props.hideForm();
     }
   };
 
@@ -93,7 +93,7 @@ class SettingFormContainer extends React.PureComponent<
       e.target !== null &&
       !this.rootRef.current.contains(e.target as Element)
     ) {
-      this.props.toggleShow();
+      this.props.hideForm();
     }
   };
 
