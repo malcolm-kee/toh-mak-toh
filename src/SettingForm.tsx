@@ -81,8 +81,10 @@ class SettingFormContainer extends React.PureComponent<
 
   handleSaveSetting = () => {
     if (isNumber(this.state.restTime) && isNumber(this.state.workTime)) {
-      this.props.setRestTime(this.state.restTime * 60);
-      this.props.setWorkTime(this.state.workTime * 60);
+      this.props.setSetting({
+        workSec: this.state.workTime * 60,
+        restSec: this.state.restTime * 60
+      });
       this.props.hideForm();
     }
   };

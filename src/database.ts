@@ -6,14 +6,20 @@ export interface ICycleRecord {
   date: Date;
 }
 
-const KEY = 'TOH_MAK_TOH_HISTORIES';
+export interface ISetting {
+  workSec: number;
+  restSec: number;
+}
+
+const HISTORY_KEY = 'TOH_MAK_TOH_HISTORIES';
+const SETTING_KEY = 'TOH_MAK_TOH_SETTING';
 
 const getHistory = () => {
-  return get<ICycleRecord[]>(KEY);
+  return get<ICycleRecord[]>(HISTORY_KEY);
 };
 
 const setHistory = (value: ICycleRecord[]) => {
-  return set(KEY, value);
+  return set(HISTORY_KEY, value);
 };
 
 const isToday = (date: Date) => {
@@ -21,7 +27,7 @@ const isToday = (date: Date) => {
   return today.toDateString() === date.toDateString();
 };
 
-export const clearHistory = () => del(KEY);
+export const clearHistory = () => del(HISTORY_KEY);
 
 export const getTodayRecords = () =>
   getHistory().then((histories = []) =>
@@ -34,3 +40,9 @@ export const addRecord = (workSec: number, restSec: number) =>
       setHistory(histories.concat({ workSec, restSec, date: new Date() }))
     )
   );
+
+export const clearSetting = () => del(SETTING_KEY);
+
+export const getSetting = () => get<ISetting>(SETTING_KEY);
+
+export const setSetting = (setting: ISetting) => set(SETTING_KEY, setting);

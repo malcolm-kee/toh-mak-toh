@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { addRecord } from './database';
+import { addRecord, getSetting, setSetting, ISetting } from './database';
 import { vibrate } from './domService';
 
 const DEFAULT_WORK_TIME = 50 * 60;
@@ -22,8 +22,7 @@ export interface IAppContext {
   workTime: number;
   restTime: number;
   toggleRun: () => void;
-  setWorkTime: (workTime: number) => void;
-  setRestTime: (restTime: number) => void;
+  setSetting: (setting: ISetting) => void;
   screen: Screen;
   goTo: (screen: Screen) => void;
 }
@@ -37,10 +36,7 @@ const DEFAULT_APP_CONTEXT: IAppContext = {
   toggleRun: () => {
     /* noop */
   },
-  setWorkTime: () => {
-    /* noop */
-  },
-  setRestTime: () => {
+  setSetting: () => {
     /* noop */
   },
   screen: Screen.Main,
@@ -78,6 +74,29 @@ export class AppContextProvider extends React.Component<{}, IAppContext> {
     }));
   };
 
+  setSetting = (setting: ISetting) => {
+    this.setState(
+      prevState => {
+        if (prevState.runMode === RunMode.Work) {
+          return {
+            remainingSec: setting.workSec,
+            workTime: setting.workSec,
+            restTime: setting.restSec
+          };
+        } else {
+          return {
+            remainingSec: setting.restSec,
+            workTime: setting.workSec,
+            restTime: setting.restSec
+          };
+        }
+      },
+      () => {
+        setSetting(setting);
+      }
+    );
+  };
+
   tick = () => {
     this.setState(prevState => ({
       remainingSec: prevState.remainingSec - 1
@@ -113,8 +132,7 @@ export class AppContextProvider extends React.Component<{}, IAppContext> {
   state = {
     ...DEFAULT_APP_CONTEXT,
     toggleRun: this.toggleRun,
-    setWorkTime: this.setWorkTime,
-    setRestTime: this.setRestTime,
+    setSetting: this.setSetting,
     goTo: this.goTo
   };
 
@@ -129,6 +147,18 @@ export class AppContextProvider extends React.Component<{}, IAppContext> {
     } else if (!this.state.isRunning && prevState.isRunning) {
       clearInterval(this.timer);
     }
+  }
+
+  componentDidMount() {
+    getSetting().then(setting => {
+      if (setting !== undefined) {
+        this.setState({
+          remainingSec: setting.workSec,
+          workTime: setting.workSec,
+          restTime: setting.restSec
+        });
+      }
+    });
   }
 
   render() {
