@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ReactNoSleep, { NoSleepProps } from 'react-no-sleep';
 import { addRecord, getSetting, setSetting, ISetting } from './database';
 import { vibrate } from './domService';
 
@@ -49,13 +50,25 @@ const AppContext = React.createContext<IAppContext>({
   ...DEFAULT_APP_CONTEXT
 });
 
-export class AppContextProvider extends React.Component<{}, IAppContext> {
+class AppContextProviderContainer extends React.Component<
+  NoSleepProps,
+  IAppContext
+> {
   private timer: number;
 
   toggleRun = () => {
-    this.setState(prevState => ({
-      isRunning: !prevState.isRunning
-    }));
+    this.setState(
+      prevState => ({
+        isRunning: !prevState.isRunning
+      }),
+      () => {
+        if (this.state.isRunning) {
+          this.props.enable();
+        } else {
+          this.props.disable();
+        }
+      }
+    );
   };
 
   setWorkTime = (workTime: number) => {
@@ -169,5 +182,13 @@ export class AppContextProvider extends React.Component<{}, IAppContext> {
     );
   }
 }
+
+export const AppContextProvider: React.SFC = props => (
+  <ReactNoSleep>
+    {noSleepProps => (
+      <AppContextProviderContainer {...noSleepProps} {...props} />
+    )}
+  </ReactNoSleep>
+);
 
 export const AppContextConsumer = AppContext.Consumer;

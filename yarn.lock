@@ -4700,6 +4700,10 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
+nosleep.js@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/nosleep.js/-/nosleep.js-0.7.0.tgz#cfd919c25523ca0d0f4a69fb3305c083adaee289"
+
 npm-bundled@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.3.tgz#7e71703d973af3370a9591bafe3a63aca0be2308"
@@ -5605,6 +5609,12 @@ react-dom@^16.4.0:
 react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
+
+react-no-sleep@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-no-sleep/-/react-no-sleep-1.0.2.tgz#1d5c084046cd88fef39d02e6b960c9e5a114789f"
+  dependencies:
+    nosleep.js "^0.7.0"
 
 react-scripts-ts@2.16.0:
   version "2.16.0"

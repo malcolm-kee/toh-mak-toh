@@ -11,7 +11,7 @@ class App extends React.Component {
       <AppContextProvider>
         <div className="App">
           <header className="App-header">
-            <h1 className="App-title">TohMakToh</h1>
+            <h1 className="App-title">Toh MakToh</h1>
             <NavButton />
             <SettingButton />
           </header>
